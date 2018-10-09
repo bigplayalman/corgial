@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from './config';
 
+
 // TODO: construct this based on environment
 const BASE_URL = 'http://localhost:1337/parse';
 
@@ -11,19 +12,42 @@ const instance = axios.create({
   }
 });
 
-export const signup = (username, password) => instance.post('/users', {
-  username,
-  password
-});
+const signup = (user) => instance.post('/users', user)
+  .then(response => {
+    window.localStorage.setItem('token', response.data.sessionToken);
+    return response;
+  })
 
-export const login = (username, password) => instance.get('/login', {
+const login = (username, password) => instance.get('/login', {
   params: {
     username,
     password
   }
 });
 
+const logout = () => {
+  window.localStorage.removeItem('token');
+}
+
+const getCurrentUser = (session) => {
+  instance.interceptors.request.use(function (config) {
+    config.headers.common['X-Parse-Session-Token'] = session;
+    return config;
+  });
+  
+  return instance.get('/users/me').then(response => {
+    return response;
+  })
+}
+
 export default {
   signup,
-  login
+  login,
+  getCurrentUser
+}
+export {
+  signup,
+  login,
+  getCurrentUser,
+  logout
 }

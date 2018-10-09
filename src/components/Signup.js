@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import uniqid from 'uniqid';
 
 class Signup extends Component {
   constructor(props) {
     super(props);
+
+    if (props.isLoggedIn) {
+      props.history.push('/dashboard');
+    }
 
     this.state = {
       username: '',
@@ -18,14 +23,21 @@ class Signup extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
 
-    const { username, password } = this.state;
+    const { username } = this.state;
 
-    if(!username || !password) {
-      // display error to user
+    if(!username) {
       return;
     }
+    const user = {
+      "authData": {
+          "anonymous": {
+              "id": uniqid(username)
+          }
+      },
+      username
+  }
 
-    this.props.signup(username, password);
+    this.props.signup(user);
   }
 
   handleTextFieldChange(e) {
@@ -34,9 +46,9 @@ class Signup extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     if(nextProps.isLoggedIn) {
-      this.props.router.push('/dashboard')
+      nextProps.history.push('/dashboard');
     }
   }
 
@@ -54,17 +66,6 @@ class Signup extends Component {
               name="username"
               value={this.state.username}
               onChange={this.handleTextFieldChange}
-              required
-            />
-          </p>
-          <p>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleTextFieldChange}
-              minLength={8}
               required
             />
           </p>

@@ -5,6 +5,9 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
+  GETCURRENTUSER_REQUEST,
+  GETCURRENTUSER_SUCCESS,
+  GETCURRENTUSER_FAILURE
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -16,7 +19,7 @@ const initialState = {
 };
 
 const auth = (state = initialState, action) => {
-  switch(action.type) {
+  switch (action.type) {
 
     case SIGNUP_REQUEST:
       return {
@@ -54,6 +57,27 @@ const auth = (state = initialState, action) => {
       }
 
     case LOGIN_FAILURE:
+      return {
+        ...state,
+        isLoggingIn: false
+      }
+
+    case GETCURRENTUSER_REQUEST:
+      return {
+        ...state,
+        isLoggedIn: true
+      }
+
+    case GETCURRENTUSER_SUCCESS:
+    console.log(action.res);
+      return {
+        ...state,
+        isLoggedIn: true,
+        userId: action.res.data.objectId,
+        token: action.res.data.sessionToken,
+      }
+
+      case GETCURRENTUSER_FAILURE:
       return {
         ...state,
         isLoggingIn: false

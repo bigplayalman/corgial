@@ -4,7 +4,10 @@ import {
   SIGNUP_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-  LOGIN_FAILURE
+  LOGIN_FAILURE,
+  GETCURRENTUSER_REQUEST,
+  GETCURRENTUSER_SUCCESS,
+  GETCURRENTUSER_FAILURE
 } from '../constants/actionTypes';
 import api from '../api';
 
@@ -20,4 +23,11 @@ export function login(username, password) {
     types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE],
     promise: api.login(username, password)
   }
+}
+
+export function getCurrentUser(session) {
+  return {
+    types: [GETCURRENTUSER_REQUEST, GETCURRENTUSER_SUCCESS, GETCURRENTUSER_FAILURE],
+    promise: api.getCurrentUser(session)
+  };
 }

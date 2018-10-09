@@ -34,9 +34,9 @@ class Login extends Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillUpdate(nextProps) {
     if(nextProps.isLoggedIn) {
-      this.props.router.push('/dashboard')
+      nextProps.history.push('/dashboard');
     }
   }
 

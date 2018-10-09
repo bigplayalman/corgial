@@ -15,7 +15,8 @@ const configureStore = () => {
     compose(
       applyMiddleware(...middleware),
       window.devToolsExtension ? window.devToolsExtension() : f => f
-    ));
+    )
+  );
 
   return store;
 }
