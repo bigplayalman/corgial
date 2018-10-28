@@ -40,7 +40,7 @@ class Routes extends Component {
       <HashRouter>
         <App>
           <Switch>
-            <PrivateRoute exact={true} path="/" component={Home} />
+            <Route exact={true} path="/" component={Home} />
             <Route path="/login" component={LoginContainer} />
             <Route path="/signup" component={SignupContainer} />
             <PrivateRoute path="/dashboard" component={DashboardContainer} />
