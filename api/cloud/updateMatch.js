@@ -1,15 +1,20 @@
-Parse.Cloud.define("updateMatch", async () => {
+exports.run = async (queue) => {
   console.log("start update match", queue);
 
   const matchQuery = new Parse.Query("match");
-  matchQuery.equalTo("size", queue.get("size"));
-  matchQuery.equalTo("game", queue.get("game"));
+  match.containedIn("size", player.get("size"));
+  match.notContainedIn("position", player.get("position"));
+  match.containedIn("language", player.get("language"));
+  match.containedIn("region", player.get("region"));
+  match.containedIn("type", player.get("type"));
+  match.equalTo("skill", player.get("skill"));
   matchQuery.equalTo("status", "pending");
   matchQuery.limit(1);
 
   const match = await matchQuery.find();
-  console.log("match found", match);
-
+  const position = match[0].get('position');
+  position.push(player.get("position")[0]);
+  match[0].set('position', position);
   match[0].relation("players").add(queue);
 
   const savedMatch = await match[0].save();
@@ -30,4 +35,4 @@ Parse.Cloud.define("updateMatch", async () => {
   const updatedQueue = await queue.save();
 
   return updatedQueue;
-});
+};
