@@ -3,7 +3,8 @@ exports.run = async (player) => {
   const positions = player.get('positions');
   party.equalTo("status", "pending");
   party.containedIn('need', positions);
-  party.descending("createdAt");
+  party.descending("size");
+  // party.ascending('size');
   party.limit(1);
   const partyFound = await party.find();
   if (partyFound && partyFound.length) {

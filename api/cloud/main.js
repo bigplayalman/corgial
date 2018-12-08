@@ -14,17 +14,13 @@ Parse.Cloud.job("Matchmaking", () => {
 
 Parse.Cloud.define("doMatchmaking", async () => {
   const count = await checkQueue.run();
-  console.log('count', count);
   if (count) {
     let player = await fetchPlayer.run();
-    console.log('player found');
     let party = await findParty.run(player);
     if (party) {
-      console.log('party found');
       player = await updatePlayer.run(party, player);
       party = await updateParty.run(party, player);
     } else {
-      console.log('party not found');
       party = await createParty.run();
       player = await updatePlayer.run(party, player);
       party = await updateParty.run(party, player);

@@ -6,6 +6,7 @@ exports.run = async () => {
   party.set("status", "pending");
   party.set("need", positions);
   party.set("set", []);
+  party.set('size', 0);
   
   const savedParty = await party.save();
 
