@@ -21,7 +21,8 @@ Parse.Cloud.define("doMatchmaking", async () => {
       player = await updatePlayer.run(party, player);
       party = await updateParty.run(party, player);
     } else {
-      party = await createParty.run();
+      const skill = player.get('skill');
+      party = await createParty.run(skill);
       player = await updatePlayer.run(party, player);
       party = await updateParty.run(party, player);
     }
