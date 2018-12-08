@@ -13,7 +13,6 @@ Parse.Cloud.job("createPlayers", async () => {
     return index;
   }
   const sliceArray = (array, max) => {
-
     let begin = beginIndex(array.length);
     let end = endIndex(array.length, begin);
     if (begin === 0 && end > max) {
@@ -23,7 +22,6 @@ Parse.Cloud.job("createPlayers", async () => {
     const newarray = array.slice(begin, end);
     return newarray;
   }
-  console.log(skills);
   for (let i = 0; i < playerCount; i++) {
     const playerObject = Parse.Object.extend("dota");
     const player = new playerObject();
